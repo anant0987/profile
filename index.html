@@ -1,0 +1,655 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MY Portfolio</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    #root {
+      height: 100%;
+    }
+    * {
+      box-sizing: border-box;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes floatBounce {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.5); }
+      50% { box-shadow: 0 0 40px rgba(59, 130, 246, 0.8); }
+    }
+
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-60px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(60px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .fade-in-up {
+      animation: fadeInUp 0.8s ease forwards;
+    }
+
+    .slide-down {
+      animation: slideDown 0.8s ease;
+    }
+
+    .slide-left {
+      animation: slideInLeft 0.8s ease forwards;
+    }
+
+    .slide-right {
+      animation: slideInRight 0.8s ease forwards;
+    }
+
+    .float-bounce {
+      animation: floatBounce 3s ease-in-out infinite;
+    }
+
+    .delay-1 { animation-delay: 0.2s; }
+    .delay-2 { animation-delay: 0.4s; }
+    .delay-3 { animation-delay: 0.6s; }
+    .delay-4 { animation-delay: 0.8s; }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #3b82f6, #06b6d4, #22c55e);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradient 6s ease infinite;
+    }
+
+    .gradient-btn {
+      background: linear-gradient(135deg, #3b82f6, #06b6d4);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .gradient-btn:hover {
+      box-shadow: 0 0 30px rgba(59, 130, 246, 0.6);
+      transform: translateY(-3px);
+    }
+
+    .gradient-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .gradient-btn:hover::before {
+      left: 100%;
+    }
+
+    .glass-card {
+      background: rgba(30, 41, 59, 0.6);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(148, 163, 184, 0.1);
+    }
+
+    .glass-card:hover {
+      background: rgba(30, 41, 59, 0.8);
+      border-color: rgba(6, 182, 212, 0.3);
+    }
+
+    .project-card {
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .project-card:hover {
+      transform: translateY(-8px) scale(1.02);
+    }
+
+    .skill-bar {
+      background: linear-gradient(90deg, #3b82f6, #06b6d4);
+      border-radius: 10px;
+      height: 8px;
+      animation: slideInRight 1s ease forwards;
+    }
+
+    .skill-bar-container {
+      overflow: hidden;
+      height: 8px;
+      background: rgba(148, 163, 184, 0.1);
+      border-radius: 10px;
+    }
+
+    .active-nav {
+      color: #06b6d4;
+      border-bottom: 2px solid #06b6d4;
+    }
+
+    .typing-text::after {
+      content: '|';
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    const defaultConfig = {
+      name: "Anant Jhunjhunwala",
+      tagline: "passionate learner / future web developer",
+      about_title: "About Me",
+      about_text: "I'm a passionate developer .",
+      email: "anantjhunjhunwala344@gmail.com",
+      github: "https://github.com/anant0987",
+      linkedin: "https://linkedin.com/in/anantjhunjhunwala"
+    };
+
+    function Portfolio() {
+      const [config, setConfig] = useState(defaultConfig);
+      const [messageStatus, setMessageStatus] = useState({ show: false, type: '', text: '' });
+      const [activeSection, setActiveSection] = useState('home');
+      const [displayedText, setDisplayedText] = useState('');
+      const textIndex = useRef(0);
+
+      const fullText = "I am a future web developer with a passion for learing";
+
+      useEffect(() => {
+        if (window.elementSdk) {
+          window.elementSdk.init({
+            defaultConfig,
+            onConfigChange: (newConfig) => {
+              setConfig(newConfig);
+            },
+            mapToCapabilities: () => ({
+              recolorables: [],
+              borderables: [],
+              fontEditable: undefined,
+              fontSizeable: undefined
+            }),
+            mapToEditPanelValues: () => new Map([
+              ["name", config.name || defaultConfig.name],
+              ["tagline", config.tagline || defaultConfig.tagline],
+              ["about_title", config.about_title || defaultConfig.about_title],
+              ["about_text", config.about_text || defaultConfig.about_text],
+              ["email", config.email || defaultConfig.email],
+              ["github", config.github || defaultConfig.github],
+              ["linkedin", config.linkedin || defaultConfig.linkedin]
+            ])
+          });
+        }
+      }, [config]);
+
+      // Typing animation
+      useEffect(() => {
+        if (textIndex.current < fullText.length) {
+          const timer = setTimeout(() => {
+            setDisplayedText(fullText.slice(0, textIndex.current + 1));
+            textIndex.current++;
+          }, 50);
+          return () => clearTimeout(timer);
+        }
+      }, [displayedText]);
+
+      const scrollToSection = (id) => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+          setActiveSection(id);
+        }
+      };
+
+      const handleContactSubmit = (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const name = formData.get('name');
+        const email = formData.get('email');
+        const message = formData.get('message');
+
+        if (name && email && message) {
+          setMessageStatus({ show: true, type: 'success', text: '✓ Message sent successfully! I\'ll get back to you soon.' });
+          e.target.reset();
+          setTimeout(() => {
+            setMessageStatus({ show: false, type: '', text: '' });
+          }, 5000);
+        }
+      };
+
+      const skills = {
+        Frontend: ['HTML', 'CSS', 'JavaScript', 'React', 'Tailwind CSS'],
+        Backend: ['Node.js', 'Python', 'MongoDB', 'Firebase', 'REST API'],
+        Design: ['Figma', 'UI Design', 'UX Design', 'Prototyping'],
+        Tools: ['Git', 'Webpack', 'Docker', 'VS Code']
+      };
+
+      const projects = [
+        { title: 'E-Commerce Platform', desc: 'Full-stack solution with React, Node.js, and MongoDB', tags: ['React', 'Node.js', 'MongoDB'], emoji: '🛒' },
+        { title: 'SaaS Dashboard', desc: 'Analytics dashboard with real-time data visualization', tags: ['React', 'Chart.js', 'Firebase'], emoji: '📊' },
+        { title: 'Mobile App Design', desc: 'Complete UI kit with 150+ components for iOS', tags: ['Figma', 'UI Design', 'iOS'], emoji: '📱' },
+        { title: 'Brand Identity', desc: 'Complete visual identity for tech startup', tags: ['Branding', 'Design', 'Logo'], emoji: '🎨' },
+        { title: 'Marketing Website', desc: 'High-performance site with animations and SEO', tags: ['Next.js', 'Tailwind', 'SEO'], emoji: '🚀' },
+        { title: 'Design System', desc: 'Enterprise design system with documentation', tags: ['Design System', 'Components', 'Docs'], emoji: '✨' }
+      ];
+
+      return (
+        <div className="w-full h-full bg-gradient-to-br from-slate-950 via-blue-900/20 to-slate-950 text-slate-100 overflow-y-auto scroll-smooth">
+          {/* Background Gradient Animation */}
+          <div className="fixed inset-0 -z-10">
+            <div className="absolute top-0 left-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 right-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl"></div>
+          </div>
+
+          {/* Navigation */}
+          <nav className="fixed top-0 left-0 right-0 bg-slate-950/80 backdrop-blur-xl z-50 border-b border-cyan-500/20">
+            <div className="max-w-6xl mx-auto px-8 py-4 flex justify-between items-center">
+              <div className="text-2xl font-bold gradient-text">Portfolio</div>
+              <ul className="flex gap-8">
+                {['home', 'about', 'skills', 'projects', 'contact'].map((item) => (
+                  <li key={item}>
+                    <button
+                      onClick={() => scrollToSection(item)}
+                      className={`capitalize font-semibold transition-all duration-300 pb-2 ${
+                        activeSection === item
+                          ? 'active-nav text-cyan-400'
+                          : 'text-slate-300 hover:text-cyan-400'
+                      }`}
+                    >
+                      {item}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </nav>
+
+          {/* Hero Section */}
+          <section id="home" className="min-h-screen flex items-center justify-center pt-24 px-8 relative overflow-hidden">
+            <div className="max-w-5xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              {/* Left Content */}
+              <div className="space-y-8">
+                <div className="fade-in-up">
+                  <p className="text-cyan-400 font-semibold mb-2">Welcome to my portfolio</p>
+                  <h1 className="text-6xl lg:text-7xl font-black mb-4">
+                    <span className="gradient-text">{config.name || defaultConfig.name}</span>
+                  </h1>
+                  <p className="text-2xl text-slate-300 mb-2 h-12 flex items-center">
+                    <span className="typing-text">{displayedText}</span>
+                  </p>
+                </div>
+
+                <p className="text-lg text-slate-400 leading-relaxed fade-in-up delay-1">
+                  {config.tagline || defaultConfig.tagline}
+                </p>
+
+                {/* CTA Buttons */}
+                <div className="flex gap-4 fade-in-up delay-2">
+                  <button
+                    onClick={() => scrollToSection('projects')}
+                    className="gradient-btn px-8 py-4 text-white font-semibold rounded-lg"
+                  >
+                    🔵 View Projects
+                  </button>
+                  <a
+                    href="#contact"
+                    className="px-8 py-4 bg-slate-800/80 hover:bg-slate-700 text-white font-semibold rounded-lg border border-slate-600 transition-all"
+                  >
+                    ⚪ Get Resume
+                  </a>
+                </div>
+
+                {/* Social Links */}
+                <div className="flex gap-6 fade-in-up delay-3">
+                  <a href={config.github} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-cyan-400 transition-colors text-2xl">
+                    🔗 GitHub
+                  </a>
+                  <a href={config.linkedin} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-cyan-400 transition-colors text-2xl">
+                    💼 LinkedIn
+                  </a>
+                  <a href={`mailto:${config.email}`} className="text-slate-400 hover:text-cyan-400 transition-colors text-2xl">
+                    ✉️ Email
+                  </a>
+                </div>
+              </div>
+
+              {/* Right - Profile Image Area */}
+              <div className="fade-in-up delay-1">
+                <div className="relative w-full aspect-square">
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500 via-cyan-500 to-purple-500 rounded-3xl blur-2xl opacity-30 animate-pulse"></div>
+                  <div className="relative h-full bg-gradient-to-br from-blue-500 to-cyan-500 rounded-3xl flex items-center justify-center text-9xl shadow-2xl overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full animate-shimmer"></div>
+                    👨‍💻
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Scroll Indicator */}
+            <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 fade-in-up delay-4">
+              <div className="text-center text-slate-400">
+                <p className="text-sm mb-2">Scroll to explore</p>
+                <div className="text-2xl float-bounce">↓</div>
+              </div>
+            </div>
+          </section>
+
+          {/* About Section */}
+          <section id="about" className="min-h-screen flex items-center justify-center py-20 px-8">
+            <div className="max-w-5xl w-full">
+              <h2 className="text-5xl font-bold mb-12 gradient-text fade-in-up">About Me</h2>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                {/* Left - About Content */}
+                <div className="space-y-6 fade-in-up delay-1">
+                  <p className="text-lg text-slate-300 leading-relaxed">
+                    {config.about_text || defaultConfig.about_text}
+                  </p>
+                  <div className="grid grid-cols-2 gap-6">
+                    <div className="glass-card p-6 rounded-xl text-center hover:scale-105 transition-transform">
+                      <div className="text-3xl font-bold gradient-text">5+</div>
+                      <p className="text-slate-400 mt-2">Years Experience</p>
+                    </div>
+                    <div className="glass-card p-6 rounded-xl text-center hover:scale-105 transition-transform">
+                      <div className="text-3xl font-bold gradient-text">50+</div>
+                      <p className="text-slate-400 mt-2">Projects Done</p>
+                    </div>
+                    <div className="glass-card p-6 rounded-xl text-center hover:scale-105 transition-transform">
+                      <div className="text-3xl font-bold gradient-text">30+</div>
+                      <p className="text-slate-400 mt-2">Happy Clients</p>
+                    </div>
+                    <div className="glass-card p-6 rounded-xl text-center hover:scale-105 transition-transform">
+                      <div className="text-3xl font-bold gradient-text">100%</div>
+                      <p className="text-slate-400 mt-2">Satisfaction</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right - Image */}
+                <div className="fade-in-up delay-2">
+                  <div className="relative h-96">
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-3xl blur-xl opacity-30"></div>
+                    <div className="relative h-full bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl overflow-hidden flex items-center justify-center">
+                      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-cyan-500/20"></div>
+                      <p className="text-7xl">🎯</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Skills Section */}
+          <section id="skills" className="min-h-screen flex items-center justify-center py-20 px-8">
+            <div className="max-w-5xl w-full">
+              <h2 className="text-5xl font-bold mb-16 gradient-text fade-in-up">Skills & Expertise</h2>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                {Object.entries(skills).map(([ category, items ], idx) => (
+                  <div key={category} className={`glass-card p-8 rounded-2xl fade-in-up ${`delay-${(idx % 4) + 1}`}`}>
+                    <h3 className="text-2xl font-bold mb-6 text-cyan-400">{category}</h3>
+                    <div className="space-y-4">
+                      {items.map((skill, i) => (
+                        <div key={skill}>
+                          <div className="flex justify-between mb-2">
+                            <span className="font-semibold text-slate-300">{skill}</span>
+                            <span className="text-cyan-400">{85 + i * 3}%</span>
+                          </div>
+                          <div className="skill-bar-container">
+                            <div
+                              className="skill-bar"
+                              style={{
+                                width: `${85 + i * 3}%`,
+                                animationDelay: `${i * 0.1}s`
+                              }}
+                            ></div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Projects Section */}
+          <section id="projects" className="min-h-screen flex flex-col items-center justify-center py-20 px-8">
+            <div className="max-w-6xl w-full">
+              <h2 className="text-5xl font-bold text-center mb-16 gradient-text fade-in-up">Featured Projects</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {projects.map((project, idx) => (
+                  <div
+                    key={idx}
+                    className={`project-card glass-card rounded-2xl overflow-hidden group fade-in-up ${`delay-${(idx % 4) + 1}`}`}
+                  >
+                    {/* Project Image */}
+                    <div className="relative h-48 bg-gradient-to-br from-blue-500 via-cyan-500 to-purple-500 flex items-center justify-center text-6xl overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-500"></div>
+                      <span className="group-hover:scale-125 transition-transform duration-300">{project.emoji}</span>
+                    </div>
+
+                    {/* Project Content */}
+                    <div className="p-6">
+                      <h3 className="text-xl font-bold mb-2 text-white group-hover:text-cyan-400 transition-colors">{project.title}</h3>
+                      <p className="text-slate-300 text-sm mb-4 leading-relaxed">{project.desc}</p>
+
+                      {/* Tags */}
+                      <div className="flex flex-wrap gap-2 mb-6">
+                        {project.tags.map((tag) => (
+                          <span key={tag} className="px-3 py-1 bg-cyan-500/20 text-cyan-300 text-xs font-semibold rounded-full border border-cyan-500/30">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+
+                      {/* Buttons */}
+                      <div className="flex gap-3">
+                        <button className="flex-1 px-4 py-2 bg-gradient-to-r from-blue-500 to-cyan-500 text-white text-sm font-semibold rounded-lg hover:shadow-lg hover:-translate-y-1 transition-all">
+                          🔗 Live Demo
+                        </button>
+                        <button className="flex-1 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white text-sm font-semibold rounded-lg border border-slate-600 transition-all">
+                          📁 GitHub
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Contact Section */}
+          <section id="contact" className="min-h-screen flex items-center justify-center py-20 px-8">
+            <div className="max-w-3xl w-full">
+              <h2 className="text-5xl font-bold text-center mb-4 gradient-text fade-in-up">Get In Touch</h2>
+              <p className="text-center text-slate-400 mb-12 fade-in-up delay-1">
+                Have a project in mind? Let's work together to create something amazing!
+              </p>
+
+              <form onSubmit={handleContactSubmit} className="space-y-6 fade-in-up delay-2">
+                <div>
+                  <label className="block text-sm font-semibold mb-3 text-slate-200">Your Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    required
+                    className="w-full px-6 py-3 glass-card rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:bg-slate-800/80 transition-all text-slate-100 placeholder-slate-500"
+                    placeholder="John Doe"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold mb-3 text-slate-200">Email Address</label>
+                  <input
+                    type="email"
+                    name="email"
+                    required
+                    className="w-full px-6 py-3 glass-card rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:bg-slate-800/80 transition-all text-slate-100 placeholder-slate-500"
+                    placeholder="john@example.com"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold mb-3 text-slate-200">Message</label>
+                  <textarea
+                    name="message"
+                    required
+                    rows="6"
+                    className="w-full px-6 py-3 glass-card rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:bg-slate-800/80 transition-all resize-none text-slate-100 placeholder-slate-500"
+                    placeholder="Tell me about your project..."
+                  ></textarea>
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full gradient-btn px-8 py-4 text-white font-bold text-lg rounded-lg"
+                >
+                  Send Message ✨
+                </button>
+
+                {messageStatus.show && (
+                  <div className={`p-4 rounded-lg text-center font-semibold animate-fadeInUp ${
+                    messageStatus.type === 'success'
+                      ? 'bg-green-500/20 text-green-300 border border-green-500/50'
+                      : 'bg-red-500/20 text-red-300 border border-red-500/50'
+                  }`}>
+                    {messageStatus.text}
+                  </div>
+                )}
+              </form>
+
+              {/* Contact Info */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 fade-in-up delay-3">
+                <a
+                  href={`mailto:${config.email}`}
+                  className="glass-card p-6 rounded-xl text-center hover:scale-105 transition-transform"
+                >
+                  <p className="text-2xl mb-2">✉️</p>
+                  <p className="text-slate-400 text-sm mb-2">Email</p>
+                  <p className="text-cyan-400 font-semibold truncate">{config.email}</p>
+                </a>
+                <a
+                  href={config.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="glass-card p-6 rounded-xl text-center hover:scale-105 transition-transform"
+                >
+                  <p className="text-2xl mb-2">🔗</p>
+                  <p className="text-slate-400 text-sm mb-2">GitHub</p>
+                  <p className="text-cyan-400 font-semibold">View Profile</p>
+                </a>
+                <a
+                  href={config.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="glass-card p-6 rounded-xl text-center hover:scale-105 transition-transform"
+                >
+                  <p className="text-2xl mb-2">💼</p>
+                  <p className="text-slate-400 text-sm mb-2">LinkedIn</p>
+                  <p className="text-cyan-400 font-semibold">Connect</p>
+                </a>
+              </div>
+            </div>
+          </section>
+
+          {/* Footer */}
+          <footer className="bg-slate-950/80 border-t border-slate-800 py-12 px-8">
+            <div className="max-w-6xl mx-auto text-center">
+              <p className="text-slate-400 mb-4">© 2024 {config.name || defaultConfig.name} • Made with ❤️</p>
+              <div className="flex justify-center gap-8">
+                <a href={config.github} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-cyan-400 transition-colors">
+                  GitHub
+                </a>
+                <a href={config.linkedin} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-cyan-400 transition-colors">
+                  LinkedIn
+                </a>
+                <a href={`mailto:${config.email}`} className="text-slate-400 hover:text-cyan-400 transition-colors">
+                  Email
+                </a>
+              </div>
+            </div>
+          </footer>
+        </div>
+      );
+    }
+
+    ReactDOM.render(<Portfolio />, document.getElementById('root'));
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9d8fed53e7463a46',t:'MTc3Mjk1Mjg1MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
